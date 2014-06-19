@@ -59,9 +59,11 @@ class DDCalculator: NSObject {
         }
         
         //check last Dot
-        let lastStr = stringOfSum[(countElements(stringOfSum) - 1)]
-        if lastStr == "." {
-            stringOfSum = stringOfSum.bridgeToObjectiveC().substringToIndex((countElements(stringOfSum) - 1))
+        if countElements(stringOfSum) > 0 {
+            let lastStr = stringOfSum[(countElements(stringOfSum) - 1)]
+            if lastStr == "." {
+                stringOfSum = stringOfSum.bridgeToObjectiveC().substringToIndex((countElements(stringOfSum) - 1))
+            }
         }
         
         //check maximum length of stringOfSum
@@ -70,7 +72,7 @@ class DDCalculator: NSObject {
         }
     }
     
-    func setOperator(anOperator : String){
+    func makeOperator(anOperator : String){
         let operatorChecker = ["+", "-", "*", "/"]
         if operatorChecker.bridgeToObjectiveC().containsObject(anOperator) {
             if operator != ""  {
@@ -78,10 +80,10 @@ class DDCalculator: NSObject {
                 self.perfomOperation()
             }
             else{
-                stringOfSum = "\(sumOfInput)"
+                stringOfSum = stringOfInput
                 self.optimizeSum()
                 stringOfInput = ""
-                sumOfInput = 0
+                sumOfInput = stringOfSum.bridgeToObjectiveC().doubleValue
             }
             
             operator = anOperator

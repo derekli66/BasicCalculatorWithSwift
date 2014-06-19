@@ -28,14 +28,52 @@ class ViewController: UIViewController {
     @IBOutlet var buttonDivide  : UIButton
     @IBOutlet var buttonClean : UIButton
     @IBOutlet var buttonOperation : UIButton
+    @IBOutlet var digitalLabel : UILabel
+    
+    var calculator : DDCalculator = DDCalculator()
+    
+    init(coder aDecoder: NSCoder!)
+    {
+        super.init(coder: aDecoder)
+    }
     
     @IBAction func addOperand(aBtn : UIButton){
-        NSLog("%d", aBtn.tag)
+        let newOp : String = "\(aBtn.tag)"
+        self.calculator.appendOperand(newOp)
+        
+        let outputStr : String = self.calculator.stringOfInput
+        digitalLabel.text = outputStr
+    }
+    
+    @IBAction func setPlusOperator(sender : UIButton){
+        self.calculator.makeOperator("+")
+        digitalLabel.text = "0"
+    }
+    
+    @IBAction func setMinusOperator(sender : UIButton){
+        self.calculator.makeOperator("-")
+        digitalLabel.text = "0"
+    }
+    
+    @IBAction func setDivideOperator(sender : UIButton){
+        self.calculator.makeOperator("/")
+        digitalLabel.text = "0"
+    }
+    
+    @IBAction func setMulitplyOperator(sender : UIButton){
+        self.calculator.makeOperator("*")
+        digitalLabel.text = "0"
+    }
+    
+    @IBAction func makeOperation(sender : UIButton){
+        self.calculator.perfomOperation()
+        digitalLabel.text = self.calculator.stringOfCurrentSum()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        digitalLabel.text = "0"
     }
 
     override func didReceiveMemoryWarning() {
