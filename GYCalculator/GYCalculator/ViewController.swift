@@ -31,6 +31,8 @@ class ViewController: UIViewController {
     @IBOutlet var digitalLabel : UILabel
     
     var calculator : DDCalculator = DDCalculator()
+    var lastOperator : String = ""
+    var didEnter : Bool = false
     
     init(coder aDecoder: NSCoder!)
     {
@@ -39,35 +41,94 @@ class ViewController: UIViewController {
     
     @IBAction func addOperand(aBtn : UIButton){
         let newOp : String = "\(aBtn.tag)"
-        self.calculator.appendOperand(newOp)
+        self.calculator.appendInputOperand(newOp)
         
-        let outputStr : String = self.calculator.stringOfInput
+        let outputStr : String = self.calculator.inputString
         digitalLabel.text = outputStr
     }
     
+    @IBAction func addDot(aBtn : UIButton){
+        if didEnter == true {
+            didEnter = false
+            self.calculator.resetCalculator()
+        }
+        self.calculator.appendInputOperand(".")
+    }
+    
     @IBAction func setPlusOperator(sender : UIButton){
+        if didEnter == true {
+            didEnter = false
+            let tempStr = self.calculator.currentSumString()
+            self.calculator.resetCalculator()
+            self.calculator.sumString = tempStr
+        }
+        else{
+            self.calculator.perfomOperation()
+            self.calculator.inputString = ""
+        }
+
         self.calculator.makeOperator("+")
         digitalLabel.text = "0"
     }
     
     @IBAction func setMinusOperator(sender : UIButton){
+        if didEnter == true {
+            didEnter = false
+            let tempStr = self.calculator.currentSumString()
+            self.calculator.resetCalculator()
+            self.calculator.sumString = tempStr
+        }
+        else{
+            self.calculator.perfomOperation()
+            self.calculator.inputString = ""
+        }
+        
         self.calculator.makeOperator("-")
         digitalLabel.text = "0"
     }
     
     @IBAction func setDivideOperator(sender : UIButton){
+        if didEnter == true {
+            didEnter = false
+            let tempStr = self.calculator.currentSumString()
+            self.calculator.resetCalculator()
+            self.calculator.sumString = tempStr
+        }
+        else{
+            self.calculator.perfomOperation()
+            self.calculator.inputString = ""
+        }
+        
         self.calculator.makeOperator("/")
         digitalLabel.text = "0"
     }
     
     @IBAction func setMulitplyOperator(sender : UIButton){
+        if didEnter == true {
+            didEnter = false
+            let tempStr = self.calculator.currentSumString()
+            self.calculator.resetCalculator()
+            self.calculator.sumString = tempStr
+        }
+        else{
+            self.calculator.perfomOperation()
+            self.calculator.inputString = ""
+        }
+        
         self.calculator.makeOperator("*")
         digitalLabel.text = "0"
     }
     
     @IBAction func makeOperation(sender : UIButton){
+        didEnter = true
         self.calculator.perfomOperation()
-        digitalLabel.text = self.calculator.stringOfCurrentSum()
+        digitalLabel.text = self.calculator.currentSumString()
+    }
+    
+    @IBAction func cleanNumbers(sender : UIButton){
+        digitalLabel.text = "0"
+        didEnter = false
+        self.calculator.resetCalculator()
     }
     
     override func viewDidLoad() {

@@ -19,39 +19,39 @@ class DDCalculator: NSObject {
    
     let overFlowString = "999999999"
     let maximumLength = 10
-    var sumOfInput : Double = 0
-    var stringOfSum : String = ""
-    var stringOfInput : String = ""
+    var sumValue : Double = 0
+    var sumString : String = ""
+    var inputString : String = ""
     var operator : String = ""
     
     func currentSum() -> Double{
-        return stringOfSum.bridgeToObjectiveC().doubleValue
+        return sumString.bridgeToObjectiveC().doubleValue
     }
     
-    func stringOfCurrentSum() -> String{
-        return stringOfSum
+    func currentSumString() -> String{
+        return sumString
     }
     
-    func appendOperand(operand : String){
-        if countElements(stringOfInput) < maximumLength {
+    func appendInputOperand(operand : String){
+        if countElements(inputString) < maximumLength {
             let isADot : Bool = (operand == ".")
-            let didContain : Bool = stringOfInput.bridgeToObjectiveC().containsString(".")
+            let didContain : Bool = inputString.bridgeToObjectiveC().containsString(".")
             if !(isADot && didContain) {
-                stringOfInput += operand
+                inputString += operand
             }
         }
     }
     
     func optimizeSum(){
         //check Zero at end of Sum
-        let elementCount = countElements(stringOfSum)
+        let elementCount = countElements(sumString)
         var modifiedSumString : String = ""
         
         var i = elementCount - 1
         while i > 0 {
-            let singleStr = stringOfSum[i]
+            let singleStr = sumString[i]
             if singleStr != "0" {
-                stringOfSum = stringOfSum.bridgeToObjectiveC().substringToIndex( i + 1)
+                sumString = sumString.bridgeToObjectiveC().substringToIndex( i + 1)
                 break
             }
             
@@ -59,71 +59,61 @@ class DDCalculator: NSObject {
         }
         
         //check last Dot
-        if countElements(stringOfSum) > 0 {
-            let lastStr = stringOfSum[(countElements(stringOfSum) - 1)]
+        if countElements(sumString) > 0 {
+            let lastStr = sumString[(countElements(sumString) - 1)]
             if lastStr == "." {
-                stringOfSum = stringOfSum.bridgeToObjectiveC().substringToIndex((countElements(stringOfSum) - 1))
+                sumString = sumString.bridgeToObjectiveC().substringToIndex((countElements(sumString) - 1))
             }
         }
         
-        //check maximum length of stringOfSum
-        if countElements(stringOfSum) > maximumLength {
-            stringOfSum = overFlowString
+        //check maximum length of sumString
+        if countElements(sumString) > maximumLength {
+            sumString = overFlowString
         }
     }
     
     func makeOperator(anOperator : String){
         let operatorChecker = ["+", "-", "*", "/"]
         if operatorChecker.bridgeToObjectiveC().containsObject(anOperator) {
-            if operator != ""  {
-                // with existing sum and operator, perform operation
-                self.perfomOperation()
-            }
-            else{
-                stringOfSum = stringOfInput
-                self.optimizeSum()
-                stringOfInput = ""
-                sumOfInput = stringOfSum.bridgeToObjectiveC().doubleValue
-            }
-            
             operator = anOperator
         }
     }
     
     func perfomOperation(){
         
-        let currentSum : Double = stringOfSum.bridgeToObjectiveC().doubleValue
-        let currentInput : Double = stringOfInput.bridgeToObjectiveC().doubleValue
+        let currentSum : Double = sumString.bridgeToObjectiveC().doubleValue
+        let currentInput : Double = inputString.bridgeToObjectiveC().doubleValue
         
         if operator == "+" {
-            sumOfInput = currentSum + currentInput
+            sumValue = currentSum + currentInput
         }
         else if operator == "-" {
-            sumOfInput = currentSum - currentInput
+            sumValue = currentSum - currentInput
         }
         else if operator == "*" {
-            sumOfInput = currentSum * currentInput
+            sumValue = currentSum * currentInput
         }
         else if operator == "/" {
             if currentInput == 0 {
-                sumOfInput = overFlowString.bridgeToObjectiveC().doubleValue
+                sumValue = overFlowString.bridgeToObjectiveC().doubleValue
             }
             else {
-                sumOfInput = currentSum / currentInput
+                sumValue = currentSum / currentInput
             }
         }
+        else{
+            sumValue = inputString.bridgeToObjectiveC().doubleValue
+        }
         
-        stringOfSum = "\(sumOfInput)"
+        sumString = "\(sumValue)"
         self.optimizeSum()
-        operator = ""
-        stringOfInput = ""
-        sumOfInput = 0
+        sumValue = 0
     }
     
-    func restCalculator(){
-        sumOfInput = 0
-        stringOfInput = ""
-        stringOfSum = ""
+    func resetCalculator(){
+        sumValue = 0
+        inputString = ""
+        sumString = ""
         operator = ""
     }
 }

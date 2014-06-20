@@ -51,6 +51,9 @@
                                         <state key="normal" image="ASB018.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="addDot:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="AZp-hj-gja"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qQn-LA-1ty">
                                         <rect key="frame" x="248" y="224" width="72" height="45"/>
@@ -154,6 +157,9 @@
                                         <state key="normal" image="ASB016.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="cleanNumbers:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="mVf-vn-zoK"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" tag="4" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wCx-UO-mAp">
                                         <rect key="frame" x="20" y="160" width="72" height="45"/>
@@ -203,7 +209,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-44" y="423"/>
+            <point key="canvasLocation" x="-268" y="467"/>
         </scene>
     </scenes>
     <resources>
