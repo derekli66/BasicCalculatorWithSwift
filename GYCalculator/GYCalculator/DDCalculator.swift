@@ -17,32 +17,30 @@ extension String{
 
 class DDCalculator: NSObject {
    
-    let overFlowString = "999999999"
-    let maximumLength = 10
-    var sumValue : Double = 0
     var sumString : String = ""
     var inputString : String = ""
     var operator : String = ""
     
-    func currentSum() -> Double{
+    let overFlowString = "999999999"
+    let maximumLength = 10
+    
+    func currentSum() -> Double {
         return sumString.bridgeToObjectiveC().doubleValue
     }
     
-    func currentSumString() -> String{
-        return sumString
-    }
-    
-    func appendInputOperand(operand : String){
+    func appendInputOperand(operand : String) {
         if countElements(inputString) < maximumLength {
             let isADot : Bool = (operand == ".")
             let didContain : Bool = inputString.bridgeToObjectiveC().containsString(".")
+            
+            //if operand is a Dot and inputString contains a Dot, do nothing for this situation
             if !(isADot && didContain) {
                 inputString += operand
             }
         }
     }
     
-    func optimizeSum(){
+    func optimizeSum() {
         //check Zero at end of Sum
         let elementCount = countElements(sumString)
         var modifiedSumString : String = ""
@@ -72,17 +70,19 @@ class DDCalculator: NSObject {
         }
     }
     
-    func makeOperator(anOperator : String){
+    func makeOperator(anOperator : String) {
+        //only allow mathematical operator goes in
         let operatorChecker = ["+", "-", "*", "/"]
         if operatorChecker.bridgeToObjectiveC().containsObject(anOperator) {
             operator = anOperator
         }
     }
     
-    func perfomOperation(){
+    func perfomOperation() {
         
         let currentSum : Double = sumString.bridgeToObjectiveC().doubleValue
         let currentInput : Double = inputString.bridgeToObjectiveC().doubleValue
+        var sumValue : Double = 0
         
         if operator == "+" {
             sumValue = currentSum + currentInput
@@ -107,11 +107,9 @@ class DDCalculator: NSObject {
         
         sumString = "\(sumValue)"
         self.optimizeSum()
-        sumValue = 0
     }
     
-    func resetCalculator(){
-        sumValue = 0
+    func resetCalculator() {
         inputString = ""
         sumString = ""
         operator = ""

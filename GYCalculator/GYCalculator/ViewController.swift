@@ -41,94 +41,56 @@ class ViewController: UIViewController {
     
     @IBAction func addOperand(aBtn : UIButton){
         let newOp : String = "\(aBtn.tag)"
-        self.calculator.appendInputOperand(newOp)
+        calculator.appendInputOperand(newOp)
         
-        let outputStr : String = self.calculator.inputString
+        let outputStr : String = calculator.inputString
         digitalLabel.text = outputStr
     }
     
     @IBAction func addDot(aBtn : UIButton){
         if didEnter == true {
             didEnter = false
-            self.calculator.resetCalculator()
+            calculator.resetCalculator()
         }
         self.calculator.appendInputOperand(".")
     }
     
-    @IBAction func setPlusOperator(sender : UIButton){
-        if didEnter == true {
-            didEnter = false
-            let tempStr = self.calculator.currentSumString()
-            self.calculator.resetCalculator()
-            self.calculator.sumString = tempStr
-        }
-        else{
-            self.calculator.perfomOperation()
-            self.calculator.inputString = ""
-        }
-
-        self.calculator.makeOperator("+")
-        digitalLabel.text = "0"
-    }
-    
-    @IBAction func setMinusOperator(sender : UIButton){
-        if didEnter == true {
-            didEnter = false
-            let tempStr = self.calculator.currentSumString()
-            self.calculator.resetCalculator()
-            self.calculator.sumString = tempStr
-        }
-        else{
-            self.calculator.perfomOperation()
-            self.calculator.inputString = ""
+    @IBAction func pressOperatorButton(sender : UIButton){
+        var anOperator : String = ""
+        switch sender.tag {
+        case 11 : anOperator = "+"
+        case 12 : anOperator = "-"
+        case 13 : anOperator = "*"
+        case 14 : anOperator = "/"
+        default : anOperator = ""
         }
         
-        self.calculator.makeOperator("-")
-        digitalLabel.text = "0"
-    }
-    
-    @IBAction func setDivideOperator(sender : UIButton){
+        // if user has pressed enter, make current sum to be the first input
         if didEnter == true {
             didEnter = false
-            let tempStr = self.calculator.currentSumString()
-            self.calculator.resetCalculator()
-            self.calculator.sumString = tempStr
+            let tempStr = calculator.sumString
+            calculator.resetCalculator()
+            calculator.sumString = tempStr
         }
         else{
-            self.calculator.perfomOperation()
-            self.calculator.inputString = ""
+            calculator.perfomOperation()
+            calculator.inputString = ""
         }
         
-        self.calculator.makeOperator("/")
-        digitalLabel.text = "0"
-    }
-    
-    @IBAction func setMulitplyOperator(sender : UIButton){
-        if didEnter == true {
-            didEnter = false
-            let tempStr = self.calculator.currentSumString()
-            self.calculator.resetCalculator()
-            self.calculator.sumString = tempStr
-        }
-        else{
-            self.calculator.perfomOperation()
-            self.calculator.inputString = ""
-        }
-        
-        self.calculator.makeOperator("*")
+        calculator.makeOperator(anOperator)
         digitalLabel.text = "0"
     }
     
     @IBAction func makeOperation(sender : UIButton){
         didEnter = true
-        self.calculator.perfomOperation()
-        digitalLabel.text = self.calculator.currentSumString()
+        calculator.perfomOperation()
+        digitalLabel.text = self.calculator.sumString
     }
     
     @IBAction func cleanNumbers(sender : UIButton){
         digitalLabel.text = "0"
         didEnter = false
-        self.calculator.resetCalculator()
+        calculator.resetCalculator()
     }
     
     override func viewDidLoad() {
@@ -136,12 +98,5 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         digitalLabel.text = "0"
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
 }
 
