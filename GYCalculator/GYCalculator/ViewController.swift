@@ -30,13 +30,13 @@ class ViewController: UIViewController {
     @IBOutlet var buttonOperation : UIButton
     @IBOutlet var digitalLabel : UILabel
     
-    var calculator : DDCalculator = DDCalculator()
-    var lastOperator : String = ""
+    var calculator : DDCalculator!
     var didEnter : Bool = false
     
     init(coder aDecoder: NSCoder!)
     {
         super.init(coder: aDecoder)
+        calculator = DDCalculator()
     }
     
     @IBAction func addOperand(aBtn : UIButton){
@@ -52,7 +52,10 @@ class ViewController: UIViewController {
             didEnter = false
             calculator.resetCalculator()
         }
+        
         self.calculator.appendInputOperand(".")
+        let outputStr : String = calculator.inputString
+        digitalLabel.text = outputStr
     }
     
     @IBAction func pressOperatorButton(sender : UIButton){
