@@ -40,20 +40,30 @@ class DDCalculator: NSObject {
         }
     }
     
+    func makeOperator(anOperator : String) {
+        //only allow mathematical operator goes in
+        let operatorChecker = ["+", "-", "*", "/"]
+        if operatorChecker.bridgeToObjectiveC().containsObject(anOperator) {
+            operator = anOperator
+        }
+    }
+    
     func optimizeSum() {
         //check Zero at end of Sum
         let elementCount = countElements(sumString)
         var modifiedSumString : String = ""
         
-        var i = elementCount - 1
-        while i > 0 {
-            let singleStr = sumString[i]
-            if singleStr != "0" {
-                sumString = sumString.bridgeToObjectiveC().substringToIndex( i + 1)
-                break
+        if sumString.bridgeToObjectiveC().containsString(".") {
+            var i = elementCount - 1
+            while i > 0 {
+                let singleStr = sumString[i]
+                if singleStr != "0" {
+                    sumString = sumString.bridgeToObjectiveC().substringToIndex( i + 1)
+                    break
+                }
+                
+                i -= 1
             }
-            
-            i -= 1
         }
         
         //check last Dot
@@ -67,14 +77,6 @@ class DDCalculator: NSObject {
         //check maximum length of sumString
         if countElements(sumString) > maximumLength {
             sumString = overFlowString
-        }
-    }
-    
-    func makeOperator(anOperator : String) {
-        //only allow mathematical operator goes in
-        let operatorChecker = ["+", "-", "*", "/"]
-        if operatorChecker.bridgeToObjectiveC().containsObject(anOperator) {
-            operator = anOperator
         }
     }
     
